@@ -102,3 +102,45 @@ function display_accordions_faqs() {
 }
 add_shortcode('display_faqs', 'display_accordions_faqs');
 
+function get_cities_with_hover_cards() {
+    // Start output buffering
+    ob_start();
+
+    // Get the list of cities
+    $cities_list = get_field('cities_list');
+
+    if ($cities_list && is_array($cities_list)) : ?>
+        <div class="cities-cards-container">
+            <?php foreach ($cities_list as $city) : ?>
+                <div class="city-card">
+                    <div class="city-card-image">
+                        <?php
+                        // Assuming the city object has fields for image URL and icon URL
+                        $image_url = get_the_post_thumbnail_url($city->ID);
+                        $card_icon = get_field( 'card_icon', $city->ID );
+                        ?>
+                        <img class="citi-image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($city->post_title); ?>">
+                        <h3><?php echo esc_html($city->post_title); ?></h3>
+                        <?php if ($card_icon) : ?>
+                            <div class="city-card-icon">
+                                <img src="<?php echo esc_url( $card_icon['url'] ); ?>" alt="<?php echo esc_attr( $card_icon['alt'] ); ?>" />
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="city-card-content">
+                        <h3><?php echo esc_html($city->post_title); ?></h3>
+                        <p><?php echo esc_html(wp_trim_words(get_the_excerpt($city->ID), 8, '')); ?></p>
+                        <a href="<?php echo esc_url(get_permalink($city->ID)); ?>" class="read-more-link">
+                            Read More <i class="fa-solid fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif;
+
+    // Return the content as a string
+    return ob_get_clean();
+}
+add_shortcode('cities_with_hover_cards', 'get_cities_with_hover_cards');
+
