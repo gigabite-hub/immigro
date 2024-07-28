@@ -69,3 +69,30 @@ function display_gallery_images() {
     return ob_get_clean();
 }
 add_shortcode('display_gallery', 'display_gallery_images');
+
+
+function display_accordions_faqs() {
+    // Start output buffering
+    ob_start();
+
+    // Check if the repeater field has rows of data
+    if (have_rows('accordions_faqs')): ?>
+        <div class="faqs-accordion">
+            <?php while (have_rows('accordions_faqs')): the_row(); 
+                $heading = get_sub_field('heading_faqs');
+                $description = get_sub_field('description_faqs'); ?>
+                
+                <div class="faq-item">
+                    <div class="faq-heading"><?php echo esc_html($heading); ?></div>
+                    <div class="faq-description" style="display: none;"><?php echo wp_kses_post($description); ?></div>
+                </div>
+                
+            <?php endwhile; ?>
+        </div>
+    <?php endif;
+
+    // Return the content as a string
+    return ob_get_clean();
+}
+add_shortcode('display_faqs', 'display_accordions_faqs');
+
