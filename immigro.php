@@ -75,6 +75,12 @@ function display_accordions_faqs() {
     // Start output buffering
     ob_start();
 
+    $accordions_details = get_field('accordions_details'); ?>
+
+    <div class="accoedion-details">
+        <p><?php echo esc_html($accordions_details); ?></p>
+    </div><?php
+
     // Check if the repeater field has rows of data
     if (have_rows('accordions_faqs')): ?>
         <div class="faqs-accordion">
