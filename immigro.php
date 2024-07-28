@@ -43,3 +43,29 @@ function get_list_name_of_all_cities() {
     return ob_get_clean();
 }
 add_shortcode('get_cities_list', 'get_list_name_of_all_cities');
+
+function display_gallery_images() {
+    // Start output buffering
+    ob_start();
+
+    // Get the gallery field
+    $images = get_field('gallery');
+
+    // Check if there are images
+    if ($images && is_array($images)): ?>
+        <div class="image-gallery">
+            <?php foreach ($images as $image): ?>
+                <figure>
+                    <img src="<?php echo esc_url($image['url']); ?>" alt="<?php echo esc_attr($image['alt']); ?>" />
+                    <?php if (!empty($image['caption'])): ?>
+                        <figcaption><?php echo esc_html($image['caption']); ?></figcaption>
+                    <?php endif; ?>
+                </figure>
+            <?php endforeach; ?>
+        </div>
+    <?php endif;
+
+    // Return the content as a string
+    return ob_get_clean();
+}
+add_shortcode('display_gallery', 'display_gallery_images');
