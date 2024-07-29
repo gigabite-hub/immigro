@@ -180,3 +180,17 @@ function display_related_blogs() {
     return ob_get_clean();
 }
 add_shortcode('related_blogs', 'display_related_blogs');
+
+
+function display_testimonial_heading_with_title() {
+    $testimonial_heading = get_field('testimonial_heading');
+    $post_title = get_the_title();
+
+    if ($testimonial_heading) {
+        return '<h2 class="testimonial-title">' . esc_html($testimonial_heading) . ' <span class="highlight-title">' . esc_html($post_title) . '</span></h2>';
+    } else {
+        return '';
+    }
+}
+add_shortcode('testimonial_heading', 'display_testimonial_heading_with_title');
+
