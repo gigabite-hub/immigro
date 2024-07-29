@@ -112,31 +112,59 @@ function get_cities_with_hover_cards() {
     // Start output buffering
     ob_start();
 
-    // Get the list of cities
-    $cities_list = get_field('cities_list');
+    // Check if the current post type is 'escuelas'
+    if (is_singular('escuelas')) {
+        // Get the list of programs for 'escuelas'
+        $programs_escuelas = get_field('programs_escuelas');
+        $list_to_display = $programs_escuelas;
+        $unique_class = 'escuelas-programs-container';
+        $excerpt_length = 15;
+    } else {
+        // Get the list of cities
+        $cities_list = get_field('cities_list');
+        $list_to_display = $cities_list;
+        $unique_class = 'cities-list-container';
+        $excerpt_length = 8;
+    }
 
-    if ($cities_list && is_array($cities_list)) : ?>
-        <div class="cities-cards-container">
-            <?php foreach ($cities_list as $city) : ?>
+    // Ensure that the list is an array and not empty
+    if ($list_to_display && is_array($list_to_display)) : ?>
+        <div class="cities-cards-container <?php echo esc_attr($unique_class); ?>">
+            <?php foreach ($list_to_display as $item) : ?>
                 <div class="city-card">
                     <div class="city-card-image">
                         <?php
-                        // Assuming the city object has fields for image URL and icon URL
-                        $image_url = get_the_post_thumbnail_url($city->ID);
-                        $card_icon = get_field( 'card_icon', $city->ID );
+                        // Assuming the item object has fields for image URL and icon URL
+                        $image_url = get_the_post_thumbnail_url($item->ID);
+                        $card_icon = get_field('card_icon', $item->ID);
                         ?>
-                        <img class="citi-image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($city->post_title); ?>">
-                        <h3><?php echo esc_html($city->post_title); ?></h3>
-                        <?php if ($card_icon) : ?>
+                        <img class="citi-image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($item->post_title); ?>">
+                        <h3><?php echo esc_html($item->post_title); ?></h3>
+
+                        <?php if (is_singular('escuelas')) : ?>
                             <div class="city-card-icon">
-                                <img src="<?php echo esc_url( $card_icon['url'] ); ?>" alt="<?php echo esc_attr( $card_icon['alt'] ); ?>" />
+                                <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/arrow-right-solid.svg'); ?>" alt="">
                             </div>
+                        <?php else : ?>
+                            <?php 
+                            // Display the card icon if it exists and is not 'escuelas'
+                            $card_icon = get_field('card_icon', $item->ID);
+                            if ($card_icon) : ?>
+                                <div class="city-card-icon">
+                                    <img src="<?php echo esc_url($card_icon['url']); ?>" alt="<?php echo esc_attr($card_icon['alt']); ?>" />
+                                </div>
+                            <?php endif; ?>
                         <?php endif; ?>
                     </div>
                     <div class="city-card-content">
-                        <h3><?php echo esc_html($city->post_title); ?></h3>
-                        <p><?php echo esc_html(wp_trim_words(get_the_excerpt($city->ID), 8, '')); ?></p>
-                        <a href="<?php echo esc_url(get_permalink($city->ID)); ?>" class="read-more-link">
+                        <?php if (is_singular('escuelas')) : ?>
+                            <a href="<?php echo esc_url(get_permalink($item->ID)); ?>" class="content-image">
+                                <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/arrow-right-solid.svg'); ?>" alt="">
+                            </a>
+                        <?php endif; ?>
+                        <h3><?php echo esc_html($item->post_title); ?></h3>
+                        <p><?php echo esc_html(wp_trim_words(get_the_excerpt($item->ID), $excerpt_length, '')); ?></p>
+                        <a href="<?php echo esc_url(get_permalink($item->ID)); ?>" class="read-more-link">
                             Read More <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>
@@ -149,6 +177,7 @@ function get_cities_with_hover_cards() {
     return ob_get_clean();
 }
 add_shortcode('cities_with_hover_cards', 'get_cities_with_hover_cards');
+
 
 
 function display_related_blogs() {

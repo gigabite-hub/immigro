@@ -446,6 +446,66 @@
     max-width: 100%;
 }
 
+.escuelas-programs-container .city-card {
+    width: calc(25% - 20px);
+}
+
+.escuelas-programs-container .city-card .city-card-image img.citi-image {
+    height: 520px;
+}
+
+.escuelas-programs-container .city-card-icon img {
+    filter: invert(1);
+}
+
+.escuelas-programs-container .city-card-icon {
+    width: 50px;
+    height: 50px;
+    right: 30px;
+    top: 30px;
+}
+
+.escuelas-programs-container .city-card-icon img {
+    width: 20px;
+}
+
+.content-image {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    top: -20px;
+    right: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fa8714;
+    border-radius: 50%;
+    font-size: 24px;
+}
+
+.content-image img {
+    width: 20px;
+    height: auto;
+    filter: invert(1);
+}
+
+.escuelas-programs-container .city-card-content {
+    padding-top: 40px;
+}
+
+.escuelas-programs-container .read-more-link,
+.escuelas-programs-container .city-card:hover .city-card-icon {
+    display: none;
+}
+
+.school-content blockquote {
+    background-color: #0d1a36;
+    padding: 20px 30px;
+    border-left: 5px solid #fa8714;
+    color: #fff;
+}
+
+
 /* Media Query */
 @media (max-width: 768px) {
     .image-gallery figure {
@@ -464,9 +524,41 @@
         width: 45%;
         margin: 15px auto;
     }
+
+    .escuelas-programs-container .city-card {
+        width: calc(50% - 20px);
+    }
+
+    .escuelas-programs-container .city-card .city-card-image img.citi-image {
+        height: 300px;
+    }
+
+    .city-card-content p {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .navigation-left .elementor-button,
+    .navigation-right .elementor-button {
+        background-color: #fff !important;
+    }
+
+    .navigation-left .elementor-button .elementor-button-icon,
+    .navigation-right .elementor-button .elementor-button-icon {
+        color: #000 !important;
+    }
 }
 
 @media (max-width: 480px) {
+    .school-gallery .gallery .gallery-icon img {
+        height: 120px;
+    }
+
+    .escuelas-programs-container .city-card {
+        width: calc(100% - 20px);
+    }
+
     .image-gallery figure {
         width: 100%;
     }
