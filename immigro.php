@@ -144,3 +144,39 @@ function get_cities_with_hover_cards() {
 }
 add_shortcode('cities_with_hover_cards', 'get_cities_with_hover_cards');
 
+
+function display_related_blogs() {
+    // Start output buffering
+    ob_start();
+
+    // Get the list of related blogs
+    $related_blogs = get_field('related_blogs');
+
+    if ($related_blogs && is_array($related_blogs)) : ?>
+        <div class="related-blogs-container">
+            <?php foreach ($related_blogs as $post): ?>
+                <?php setup_postdata($post); ?>
+                <div class="related-blog-card">
+                    <div class="card-image">
+                        <?php echo get_the_post_thumbnail($post->ID, 'medium'); ?>
+                        <a href="<?php echo get_permalink($post->ID); ?>" class="overlay">
+                        <i class="fa-solid fa-arrow-right"></i>
+                        </a>    
+                    </div>
+                    <a href="<?php echo get_permalink($post->ID); ?>" class="overlay-visible">
+                    <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="<?php echo get_permalink($post->ID); ?>" class="card-content">
+                        <h3><?php echo esc_html(get_the_title($post->ID)); ?></h3>
+                        <p><?php echo esc_html(wp_trim_words(get_the_excerpt($post->ID), 15)); ?></p>
+                    </a>
+                </div>
+            <?php endforeach; ?>
+            <?php wp_reset_postdata(); ?>
+        </div>
+    <?php endif;
+
+    // Return the content as a string
+    return ob_get_clean();
+}
+add_shortcode('related_blogs', 'display_related_blogs');
