@@ -13,6 +13,16 @@
             $(this).toggleClass('active');
         });
 
+        var swiper = new Swiper(".mySwiper", {
+            slidesPerView: 3,
+            spaceBetween: 30,
+            loop: true,
+            navigation: {
+                nextEl: '.navigation-right',
+                prevEl: '.navigation-left',
+            },
+        });
+
     });
 
 }(jQuery));

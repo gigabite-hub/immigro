@@ -200,3 +200,39 @@ function display_testimonial_heading_with_title() {
 }
 add_shortcode('testimonial_heading', 'display_testimonial_heading_with_title');
 
+
+
+function get_programs_with_hover_cards() {
+    // Start output buffering
+    ob_start();
+
+    // Get the list of cities
+    $programs = get_field( 'programs' ); 
+    if ($programs && is_array($programs)) : ?>
+        <div class="swiper mySwiper">
+            <div class="swiper-wrapper"><?php
+                foreach ($programs as $program) : ?>
+                    <div class="swiper-slide">
+                        <a href="<?php echo esc_url(get_permalink($program->ID)); ?>" class="city-card">
+                            <div class="city-card-image"><?php
+                                $image_url = get_the_post_thumbnail_url($program->ID); ?>
+                                <img class="citi-image" src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($program->post_title); ?>">
+                                <h3><?php echo esc_html($program->post_title); ?></h3>
+                                <div class="city-card-icon">
+                                    <img src="<?php echo esc_url(plugin_dir_url(__FILE__) . 'img/arrow-right-solid.svg'); ?>" alt="">
+                                </div>
+                            </div>
+                            <div class="city-card-content">
+                                <h3><?php echo esc_html($program->post_title); ?></h3>
+                                <p><?php echo esc_html(wp_trim_words(get_the_excerpt($program->ID), 8, '')); ?></p>
+                            </div>
+                        </a>
+                    </div><?php
+                endforeach; ?>
+            </div>
+        </div><?php
+    endif;
+    // Return the content as a string
+    return ob_get_clean();
+}
+add_shortcode('programs_with_hover_cards', 'get_programs_with_hover_cards');
