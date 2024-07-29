@@ -370,6 +370,22 @@
     content: "";
 }
 
+
+.institutes-list ul {
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.institutes-list ul li {
+    width: 50%;
+}
+
+.institutes-list ul li i {
+    color: #015CB5;
+    margin-right: 10px;
+}
+
 /* Media Query */
 @media (max-width: 768px) {
     .image-gallery figure {

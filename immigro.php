@@ -27,13 +27,18 @@ add_action( 'wp_enqueue_scripts', 'custom_plugin_enqueue_styles' );
 function get_list_name_of_all_cities() {
     ob_start();
 
-    $cities_list = get_field('cities_list');
-    
-    if ($cities_list && is_array($cities_list)) : ?>
-        <div class="cities-list">
+    // Check if the current post type is 'city' and it's a singular page
+    if (is_singular('city')) {
+        $items_list = get_field('institutes');
+    } else {
+        $items_list = get_field('cities_list');
+    }
+
+    if ($items_list && is_array($items_list)) : ?>
+        <div class="cities-list institutes-list">
             <ul>
-                <?php foreach ($cities_list as $list): ?>
-                    <li><i class="fa-solid fa-circle-arrow-right"></i> <?php echo esc_html($list->post_title); ?></li>
+                <?php foreach ($items_list as $item): ?>
+                    <li><i class="fa-solid fa-circle-arrow-right"></i> <?php echo esc_html($item->post_title); ?></li>
                 <?php endforeach; ?>
             </ul>
         </div>
@@ -43,6 +48,7 @@ function get_list_name_of_all_cities() {
     return ob_get_clean();
 }
 add_shortcode('get_cities_list', 'get_list_name_of_all_cities');
+
 
 function display_gallery_images() {
     // Start output buffering
