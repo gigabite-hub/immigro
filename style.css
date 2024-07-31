@@ -524,6 +524,28 @@
     color: #fff;
 }
 
+/* Dream Section */
+.dream-list {
+    list-style-type: none;
+    color: #fff;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.dream-list li {
+    width: 50%;
+    margin: 2px 0px;
+}
+
+#myTestimonials .thumb img {
+    height: 56px !important;
+    object-fit: cover;
+}
+
+.breadcrumb .aioseo-breadcrumbs {
+    color: #fff;
+}
+
 
 /* Media Query */
 @media (max-width: 768px) {
@@ -570,6 +592,10 @@
 }
 
 @media (max-width: 480px) {
+    .dream-list li {
+        width: 100%;
+    }
+
     .school-gallery .gallery .gallery-icon img {
         height: 120px;
     }

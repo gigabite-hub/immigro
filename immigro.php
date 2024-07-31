@@ -265,3 +265,93 @@ function get_programs_with_hover_cards() {
     return ob_get_clean();
 }
 add_shortcode('programs_with_hover_cards', 'get_programs_with_hover_cards');
+
+
+function get_testimonials() {
+    // Start output buffering
+    ob_start();
+
+    // Get the list of cities
+    $testimonials = get_field( 'testimonials' );
+
+    if ($testimonials && is_array($testimonials)) : ?>
+        <div class="swiper myTestimonials">
+            <div class="swiper-wrapper"><?php
+
+                foreach ($testimonials as $testimonial) : 
+                    // Fetch the testimonials meta
+                    $testimonial_meta = get_post_meta($testimonial->ID, 'immigro_testimonials_mb_settings', true);
+                    $author_name = isset($testimonial_meta['author_name']) ? $testimonial_meta['author_name'] : '';
+                    $author_job_position = isset($testimonial_meta['author_job_position']) ? $testimonial_meta['author_job_position'] : '';
+                    $author_rating_value = isset($testimonial_meta['author_rating_value']) ? $testimonial_meta['author_rating_value'] : '';
+                    $author_text = isset($testimonial_meta['author_text']) ? $testimonial_meta['author_text'] : '';
+                    $truncated_text = wp_trim_words($author_text, 20, '...');
+                    $image_url = get_the_post_thumbnail_url($testimonial->ID);
+
+                    if (empty($author_text)) {
+                        continue;
+                    }
+                    ?>
+                    
+                    <div class="swiper-slide">
+                        <div class="isotope-item">
+                            <div class="testimonial-block-one">
+                                <div class="inner-box">
+                                    <div class="content-box">
+                                        <span class="icon fa fa-quote-left" aria-hidden="true"></span>
+                                        <div class="rating">
+                                            <div class="star-rating">
+                                                <?php
+                                                for ($i = 1; $i <= 5; $i++) {
+                                                    if ($i <= $author_rating_value) {
+                                                        echo '<i class="fa fa-star" style="color: #fa8714;"></i>';
+                                                    } else {
+                                                        echo '<i class="fa fa-star-o" style="color: #fa8714;"></i>';
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+                                        <div class="author-text"><?php echo esc_html($truncated_text); ?></div>
+                                    </div>
+                                    <div class="info-box">
+                                        <div class="thumb">
+                                            <img width="300" height="300"  src="<?php echo esc_url($image_url); ?>" alt="<?php echo esc_attr($item->post_title); ?>" class="img-fullwidth wp-post-image">			
+                                        </div>
+                                        <h5 class="name"><?php echo esc_html($author_name); ?></h5>
+                                        <span class="job-position"><?php echo esc_html($author_job_position); ?></span>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
+                    </div><?php
+                endforeach; ?>
+                
+            </div>
+        </div><?php
+    endif; 
+    
+    // Return the content as a string
+    return ob_get_clean();
+}
+add_shortcode('all_testimonials', 'get_testimonials');
+
+
+function list_services_dream_section() {
+    // Start output buffering
+    ob_start();
+
+    // Get the list of cities
+    if (have_rows('services_of_dream_section')): ?>
+        <ul class="dream-list">
+            <?php while (have_rows('services_of_dream_section')): the_row(); 
+                $heading = get_sub_field('heading_dream_country'); ?>
+                <li><i class="fa-solid fa-circle-check"></i> <?php echo esc_html($heading); ?></li>
+            <?php endwhile; ?>
+        </div>
+    <?php endif;
+    
+    // Return the content as a string
+    return ob_get_clean();
+}
+add_shortcode('list_dream_services', 'list_services_dream_section');

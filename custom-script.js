@@ -13,7 +13,8 @@
             $(this).toggleClass('active');
         });
 
-        var swiper = new Swiper(".mySwiper", {
+        // Common Swiper settings
+        var swiperSettings = {
             slidesPerView: 3,
             spaceBetween: 30,
             loop: true,
@@ -35,7 +36,17 @@
                     spaceBetween: 40,
                 }
             }
-        });
+        };
+
+        new Swiper(".mySwiper", swiperSettings);
+
+        // Add autoplay settings for testimonials swiper
+        swiperSettings.autoplay = {
+            delay: 2500,
+            disableOnInteraction: true,
+        };
+
+        new Swiper(".myTestimonials", swiperSettings);
 
     });
 
